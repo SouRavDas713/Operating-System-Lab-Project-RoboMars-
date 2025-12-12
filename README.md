@@ -1,111 +1,104 @@
-RoboMars – Mars Rover Task Simulation
+# 🚀 RoboMars – Mars Rover Task Simulation
 
-A simulation project demonstrating how a Mars rover’s onboard CPU schedules and executes multiple mission tasks using a Priority-based Round Robin Scheduling Algorithm, with a fallback to Shortest Job First (SJF) when all tasks share the same priority.
+A simulation project demonstrating how a Mars rover’s onboard CPU schedules and executes mission tasks using a **Priority-Based Round Robin** algorithm, with an automatic fallback to **Shortest Job First (SJF)** when all tasks share the same priority.
 
-This system visualizes CPU execution order, remaining burst time, and performance analytics through an interactive Gantt chart and real-time UI. It connects OS scheduling concepts with real-world space robotics.
+This system displays CPU task execution, remaining burst time, and performance analytics using a real-time Gantt chart and interactive UI.
 
-🚀 Project Overview
+---
 
-During a Mars mission, a rover performs tasks such as:
+## 🌌 Project Overview
 
-Soil sampling
+During a Mars mission, a rover performs tasks like:
 
-Capturing images
+- Soil sampling
+- Capturing images
+- Obstacle avoidance
+- Data transmission
 
-Obstacle avoidance
+Because the rover’s CPU can execute **only one task at a time**, it must choose which task runs next based on:
 
-Data transmission
+- **Priority**
+- **Arrival time**
+- **Remaining burst time**
 
-Since the rover’s CPU can execute only one task at a time, it must decide which task runs next based on:
+RoboMars simulates this decision-making process and visualizes the entire execution flow.
 
-Priority
+---
 
-Arrival time
+## 🎯 Objectives
 
-Remaining burst time
+- Implement CPU scheduling using **Priority-Based Round Robin**
+- Automatically switch to **Shortest Job First (SJF)** when all tasks have identical priority
+- Provide real-time visualization:
+  - Gantt chart
+  - Remaining burst time updates
+- Display:
+  - Waiting time
+  - Turnaround time
+- Create a clean, user-friendly, interactive interface
 
-This project simulates that decision-making process and shows task flow visually.
+---
 
-🎯 Objectives
+## 🧠 How It Works
 
-Simulate CPU scheduling using Priority-based Round Robin.
-
-Automatically use Shortest Job First (SJF) when all tasks have the same priority.
-
-Visualize real-time execution through:
-
-A live Gantt chart
-
-Remaining burst time updates
-
-Display:
-
-Waiting time
-
-Turnaround time
-
-Show how priority and arrival time influence CPU performance.
-
-Provide a clean, interactive, user-friendly interface.
-
-🧠 How It Works
-1. Input Phase
-
+### **1. Input Phase**
 Users enter:
 
-Task name
+- Task name  
+- Priority  
+- Arrival time  
+- Burst time  
 
-Priority
+These tasks are added to the **ready queue**.
 
-Arrival time
+---
 
-Burst time
+### **2. Scheduling Algorithm**
 
-These tasks are added to the ready queue.
+### 🔸 Priority-Based Round Robin (Main Algorithm)
+- Highest priority tasks run first  
+- Tasks with equal priority follow **Round Robin** with a time quantum  
+- Preemption occurs if a higher-priority task arrives  
+- Tasks whose time slice expires return to the queue  
 
-2. Scheduling Algorithm
-Priority-Based Round Robin (Main Algorithm)
+---
 
-Highest priority tasks are executed first.
+### 📌 Special Rule: When All Priorities Are the Same  
+If all tasks share the same priority, RoboMars switches to:
 
-Tasks with the same priority follow Round Robin using a time quantum.
+## ➡️ **Shortest Job First (SJF)**  
+- Tasks are sorted by **burst time**  
+- Shortest job runs first  
+- Ensures maximum efficiency when priority doesn't matter  
 
-Preemption occurs if a higher-priority task arrives.
+---
 
-If a task’s time slice expires, it returns to the ready queue.
+## 🎨 Visualization Features
 
-📌 Special Rule: When All Task Priorities Are the Same
+- Real-time **Gantt Chart**
+- Remaining burst time display
+- CPU execution order highlighting
+- Analytics summary:
+  - Average waiting time
+  - Average turnaround time
 
-If every task has the same priority, the scheduler automatically switches to:
+---
 
-➡️ Shortest Job First (SJF)
+## 🛠️ Tech Stack
 
-Tasks are sorted by their burst time.
+| Category | Technology |
+|----------|------------|
+| **Frontend** | React.js |
+| **Styling** | Tailwind CSS |
+| **Logic & Simulation** | JavaScript (useState, useEffect) |
+| **Visualization** | Custom Gantt Chart |
+| **Deployment** | Netlify / Vercel |
 
-The shortest task executes first.
+---
 
-This improves efficiency when priority offers no distinction.
+## 📁 Suggested Project Structure
 
-🎨 Visualization (UI Features)
-
-The UI includes:
-
-Real-time Gantt chart
-
-Remaining burst time viewer
-
-CPU execution order highlight
-
-Analytics summary (average waiting & turnaround time)
-
-🛠️ Tech Stack
-Category	Technology
-Frontend	React.js
-Styling	Tailwind CSS
-Logic & Simulation	JavaScript (useState, useEffect)
-Visualization	Custom Gantt Chart
-Deployment	Netlify / Vercel
-📁 Suggested Project Structure
+```
 root/
 ├── src/
 │   ├── components/
@@ -122,37 +115,50 @@ root/
 ├── README.md
 ├── package.json
 └── tailwind.config.js
+```
 
-▶️ How to Run the Project
-1. Clone the repository
+---
+
+## ▶️ How to Run the Project
+
+### **1. Clone the repository**
+```bash
 git clone https://github.com/<your-repo-name>.git
 cd <your-repo-name>
+```
 
-2. Install dependencies
+### **2. Install dependencies**
+```bash
 npm install
+```
 
-3. Start development server
+### **3. Start the development server**
+```bash
 npm start
+```
 
-4. Build for production
+### **4. Build for production**
+```bash
 npm run build
+```
 
-👨‍🚀 Team Members
+---
 
-Sourav Das – C231055
+## 👨‍🚀 Team Members
 
-Mohammad Ahnaf Sanjim – C231069
+- **Sourav Das** – C231055  
+- **Mohammad Ahnaf Sanjim** – C231069  
+- **Md. Tanbir Hossain Shehab** – C231071  
+- **Syed Joy Newaj Nabil** – C231075  
 
-Md. Tanbir Hossain Shehab – C231071
+---
 
-Syed Joy Newaj Nabil – C231075
+## 🧪 Future Improvements
 
-🧪 Future Improvements
+- Multi-core task simulation  
+- Additional scheduling algorithms (FCFS, Preemptive Priority, etc.)  
+- Exportable analytics report  
+- Real rover task profile integration  
 
-Multi-core task simulation
+---
 
-Additional scheduling algorithms (SJF, FCFS, Preemptive Priority, etc.)
-
-Exportable analytics report
-
-Real rover task profiles
