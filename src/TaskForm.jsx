@@ -8,13 +8,13 @@ const TaskForm = ({ onSubmit }) => {
   const [tasks, setTasks] = useState([]);
 
   const taskBurstMap = {
-    "Environment Scan": 6,
-    "Soil Sampling": 8,
-    "Data Transmission": 10,
-    "Photo Capture": 12,
-    "Battery Recharge": 15,
-    "Defense System": 20,
-    "Self Cleaning": 5,
+    "Environment Scan": 3,
+    "Soil Sampling": 4,
+    "Data Transmission": 5,
+    "Photo Capture": 6,
+    "Battery Recharge": 7,
+    "Defense System": 8,
+    "Self Cleaning": 3,
   };
 
   const taskPriorityMap = {
