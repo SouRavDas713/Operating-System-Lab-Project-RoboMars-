@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useRef } from "react";
-import AnalyticsPage from "./AnalyticsPage";
 const colors = [
   "bg-indigo-400",
   "bg-pink-400",
@@ -97,10 +96,10 @@ const SimulationPage = ({ tasks, algorithm, onBack }) => {
 
   const toggleAnalytics = () => setAnalyticsOpen((prev) => !prev);
 
-  const getWaitingTime = (t) => {
-    if (t.completionTime === null) return "-";
-    return t.completionTime - t.arrivalTime - t.burstTime;
-  };
+ const getWaitingTime = (t) => {
+  if (t.completionTime === null) return "-";
+  return t.completionTime - t.arrivalTime - t.burstTime;
+};
 
   const getTurnaroundTime = (t) => {
     if (t.completionTime === null) return "-";
@@ -109,16 +108,18 @@ const SimulationPage = ({ tasks, algorithm, onBack }) => {
 
   // ✅ NEW: averages (logic only, no behavior change)
   const getAverageWaitingTime = () => {
-    const finished = taskList.filter((t) => t.completionTime !== null);
-    if (finished.length === 0) return "-";
+  const finished = taskList.filter((t) => t.completionTime !== null);
+  if (finished.length === 0) return "-";
 
-    const total = finished.reduce(
-      (sum, t) => sum + (t.completionTime - t.arrivalTime - t.burstTime),
-      0
-    );
+  const total = finished.reduce(
+    (sum, t) =>
+      sum + (t.completionTime - t.arrivalTime - t.burstTime),
+    0
+  );
 
-    return (total / finished.length).toFixed(2);
-  };
+  return (total / finished.length).toFixed(2);
+};
+
 
   const getAverageTurnaroundTime = () => {
     const finished = taskList.filter((t) => t.completionTime !== null);
@@ -318,7 +319,113 @@ const SimulationPage = ({ tasks, algorithm, onBack }) => {
 
       {/* Analytics Modal */}
       {analyticsOpen && (
-        <AnalyticsPage tasks={taskList} onClose={toggleAnalytics} />
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center">
+          <div className="bg-gray-900 p-6 rounded-2xl w-3/4 max-h-[80vh] overflow-y-auto text-white shadow-2xl border border-gray-700">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h2 className="text-2xl font-bold mb-1">📊 CPU Analytics</h2>
+                <p className="text-sm text-gray-300">
+                  Algorithm used:{" "}
+                  <b>{algorithm || "Preemptive Priority Scheduling"}</b>
+                </p>
+              </div>
+              <button
+                onClick={toggleAnalytics}
+                className="bg-gray-800 px-3 py-1 rounded-lg text-sm hover:bg-gray-700"
+              >
+                ✕ Close
+              </button>
+            </div>
+
+            {/* ✅ New summary row for averages */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4 text-sm">
+              <div className="bg-gray-950 rounded-xl p-3 border border-gray-700">
+                <div className="text-gray-400 text-xs uppercase">
+                  Total Tasks
+                </div>
+                <div className="text-xl font-bold mt-1">{taskList.length}</div>
+              </div>
+              <div className="bg-gray-950 rounded-xl p-3 border border-gray-700">
+                <div className="text-gray-400 text-xs uppercase">
+                  Avg Waiting Time
+                </div>
+                <div className="text-xl font-bold mt-1 text-emerald-300">
+                  {avgWaiting}
+                  {avgWaiting !== "-" && (
+                    <span className="text-xs text-gray-400 ml-1">sec</span>
+                  )}
+                </div>
+              </div>
+              <div className="bg-gray-950 rounded-xl p-3 border border-gray-700">
+                <div className="text-gray-400 text-xs uppercase">
+                  Avg Turnaround Time
+                </div>
+                <div className="text-xl font-bold mt-1 text-indigo-300">
+                  {avgTurnaround}
+                  {avgTurnaround !== "-" && (
+                    <span className="text-xs text-gray-400 ml-1">sec</span>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <table className="min-w-full text-center border border-gray-700 text-xs">
+              <thead className="bg-gray-800">
+                <tr>
+                  <th className="py-2 px-2 border-b">Task Name</th>
+                  <th className="py-2 px-2 border-b">Priority</th>
+                  <th className="py-2 px-2 border-b">Arrival</th>
+                  <th className="py-2 px-2 border-b">Burst</th>
+                  <th className="py-2 px-2 border-b">Waiting</th>
+                  <th className="py-2 px-2 border-b">Turnaround</th>
+                </tr>
+              </thead>
+              <tbody>
+                {taskList.map((t, i) => (
+                  <tr
+                    key={i}
+                    className={`hover:bg-gray-800 transition ${
+                      t.status === "Done" ? "bg-green-700 text-white" : ""
+                    } ${i % 2 === 0 ? "bg-gray-900" : "bg-gray-950"}`}
+                  >
+                    <td className="py-1 px-2 border-b text-left">
+                      <span className="inline-flex items-center gap-2">
+                        <span
+                          className={`w-2 h-2 rounded-full ${
+                            colorMap[t.taskName]
+                          }`}
+                        />
+                        <span className="truncate max-w-40">{t.taskName}</span>
+                      </span>
+                    </td>
+                    <td className="py-1 px-2 border-b">{t.priority}</td>
+                    <td className="py-1 px-2 border-b">{t.arrivalTime}</td>
+                    <td className="py-1 px-2 border-b">{t.burstTime}</td>
+                    <td className="py-1 px-2 border-b">{getWaitingTime(t)}</td>
+                    <td className="py-1 px-2 border-b">
+                      {getTurnaroundTime(t)}
+                    </td>
+                  </tr>
+                ))}
+                {taskList.length === 0 && (
+                  <tr>
+                    <td
+                      colSpan={6}
+                      className="py-3 text-gray-400 text-xs italic"
+                    >
+                      No tasks to analyze.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+
+            <p className="mt-3 text-[11px] text-gray-400">
+              * A task is included in average waiting time once it has started,
+              and in average turnaround time once it has completed.
+            </p>
+          </div>
+        </div>
       )}
     </div>
   );
