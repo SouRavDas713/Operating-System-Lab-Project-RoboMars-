@@ -97,41 +97,41 @@ const SimulationPage = ({ tasks, algorithm, onBack }) => {
 
   const toggleAnalytics = () => setAnalyticsOpen((prev) => !prev);
 
-  const getWaitingTime = (t) => {
-    if (t.completionTime === null) return "-";
-    return t.completionTime - t.arrivalTime - t.burstTime;
-  };
+  // const getWaitingTime = (t) => {
+  //   if (t.completionTime === null) return "-";
+  //   return t.completionTime - t.arrivalTime - t.burstTime;
+  // };
 
-  const getTurnaroundTime = (t) => {
-    if (t.completionTime === null) return "-";
-    return t.completionTime - t.arrivalTime;
-  };
+  // const getTurnaroundTime = (t) => {
+  //   if (t.completionTime === null) return "-";
+  //   return t.completionTime - t.arrivalTime;
+  // };
 
-  // ✅ NEW: averages (logic only, no behavior change)
-  const getAverageWaitingTime = () => {
-    const finished = taskList.filter((t) => t.completionTime !== null);
-    if (finished.length === 0) return "-";
+  // // ✅ NEW: averages (logic only, no behavior change)
+  // const getAverageWaitingTime = () => {
+  //   const finished = taskList.filter((t) => t.completionTime !== null);
+  //   if (finished.length === 0) return "-";
 
-    const total = finished.reduce(
-      (sum, t) => sum + (t.completionTime - t.arrivalTime - t.burstTime),
-      0
-    );
+  //   const total = finished.reduce(
+  //     (sum, t) => sum + (t.completionTime - t.arrivalTime - t.burstTime),
+  //     0
+  //   );
 
-    return (total / finished.length).toFixed(2);
-  };
+  //   return (total / finished.length).toFixed(2);
+  // };
 
-  const getAverageTurnaroundTime = () => {
-    const finished = taskList.filter((t) => t.completionTime !== null);
-    if (finished.length === 0) return "-";
-    const total = finished.reduce(
-      (sum, t) => sum + (t.completionTime - t.arrivalTime),
-      0
-    );
-    return (total / finished.length).toFixed(2);
-  };
+  // const getAverageTurnaroundTime = () => {
+  //   const finished = taskList.filter((t) => t.completionTime !== null);
+  //   if (finished.length === 0) return "-";
+  //   const total = finished.reduce(
+  //     (sum, t) => sum + (t.completionTime - t.arrivalTime),
+  //     0
+  //   );
+  //   return (total / finished.length).toFixed(2);
+  // };
 
-  const avgWaiting = getAverageWaitingTime();
-  const avgTurnaround = getAverageTurnaroundTime();
+  // //const avgWaiting = getAverageWaitingTime();
+  // //const avgTurnaround = getAverageTurnaroundTime();
 
   return (
     <div className="flex flex-col h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-700 p-4">
